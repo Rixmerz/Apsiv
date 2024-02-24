@@ -1741,7 +1741,7 @@ nav.et-menu-nav {
 }
 
 #top-menu a {
-    color: rgba(0, 0, 0, .6);
+    color: rgba(0, 0, 0, .9) !important;
     text-decoration: none;
     display: block;
     position: relative;
@@ -12611,9 +12611,9 @@ a.et_pb_more_button:after {
 
 .et_mobile_menu li a {
     border-bottom: 1px solid rgba(0, 0, 0, .03);
-    color: #666;
+    color: #666 !important;
     padding: 10px 5%;
-    display: block
+    display: block;
 }
 
 .et_mobile_menu .menu-item-has-children>a {
