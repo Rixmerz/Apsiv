@@ -15,7 +15,7 @@ if ($resultado->num_rows > 0) {
         ];
     }
 }
-
+include 'menu.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -64,7 +64,7 @@ if ($resultado->num_rows > 0) {
 
     <!-- AGENDA lateral -->
     <div class="derecha">
-        <h4 class="text-center">Agenda</h4>
+        <h4 class="text-center">Lista de Próximas Reuniones</h4>
         <div class="agenda-slider">
             <div class="agenda-item">
                 <h5>Paciente : Nombre</h5>
@@ -88,9 +88,6 @@ if ($resultado->num_rows > 0) {
             </div>
         </div>
     </div>
-
-
-    <?php include 'menu.php'; ?>
 
     <!-- Contenido principal -->
 

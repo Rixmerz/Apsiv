@@ -1,3 +1,7 @@
+<?php
+include 'menu.php';
+include '../bd.php';
+?>
 <header>
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -5,10 +9,6 @@
     <title>Ultimos Formularios</title>
 </header>
 <?php
-
-include 'menu.php';
-// Tu código de conexión a la base de datos y otras configuraciones necesarias
-
 // Consulta SQL
 $sql = "SELECT * FROM `formulario_contacto` ORDER BY `formulario_contacto`.`ID` DESC limit 10 ";
 
