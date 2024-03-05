@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menú lateral estilizado</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      .sidebar {
+        position: fixed;
+        left: 0; /* Inicia oculto */
+        top: 0;
+        height: 100%;
+        width: 250px;
+        background-color: #333;
+        padding-top: 60px;
+        transition: left 0.3s ease; /* Añade una transición al movimiento */
+      }
+
+      .sidebar ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .sidebar li {
+        padding: 15px 20px;
+      }
+
+      .sidebar a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 18px;
+        display: block;
+      }
+
+      .sidebar a:hover {
+        background-color: #555;
+      }
+
+      .content {
+        margin-left: 250px;
+        padding: 20px;
+        transition: margin-left 0.3s ease;
+        margin-top: 30px; /* Añade una transición al movimiento del contenido */
+      }
+
+      .container {
+        display: none;
+      }
+
+      .nav-container .checkbox {
+        position: absolute;
+        display: block;
+        height: 32px;
+        width: 32px;
+        top: 20px;
+        left: 20px;
+        z-index: 5;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .nav-container .hamburger-lines {
+        display: block;
+        height: 26px;
+        width: 32px;
+        position: absolute;
+        top: 17px;
+        left: 20px;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .nav-container .hamburger-lines .line {
+        display: block;
+        height: 4px;
+        width: 100%;
+        border-radius: 10px;
+        background: #0e2431;
+      }
+
+      .nav-container .hamburger-lines .line1 {
+        transform-origin: 0% 0%;
+        transition: transform 0.4s ease-in-out;
+      }
+
+      .nav-container .hamburger-lines .line2 {
+        transition: transform 0.2s ease-in-out;
+      }
+
+      .nav-container .hamburger-lines .line3 {
+        transform-origin: 0% 100%;
+        transition: transform 0.4s ease-in-out;
+      }
+
+      .nav-container input[type="checkbox"]:checked ~ .hamburger-lines .line1 {
+        transform: rotate(45deg);
+      }
+
+      .nav-container input[type="checkbox"]:checked ~ .hamburger-lines .line2 {
+        transform: scaleY(0);
+      }
+
+      .nav-container input[type="checkbox"]:checked ~ .hamburger-lines .line3 {
+        transform: rotate(-45deg);
+      }
+
+      @media screen and (max-width: 768px) {
+        .sidebar {
+          left: -250px; /* Ajusta para que esté visible en dispositivos móviles */
+        }
+
+        .container {
+          display: block;
+        }
+
+        .content {
+          margin-left: 0px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container nav-container">
+      <input
+        class="checkbox"
+        type="checkbox"
+        onclick="toggleSidebar()"
+        name=""
+        id=""
+      />
+      <div class="hamburger-lines">
+        <span class="line line1"></span>
+        <span class="line line2"></span>
+        <span class="line line3"></span>
+      </div>
+    </div>
+
+    <!-- Menú lateral -->
+    <div class="sidebar">
+      <ul>
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Productos</a></li>
+        <li><a href="#">Servicios</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="content">
+      <h2>Contenido Principal</h2>
+      <p>Este es el contenido principal de la página.</p>
+    </div>
+
+    <script>
+      function toggleSidebar() {
+        var sidebar = document.querySelector(".sidebar");
+        var content = document.querySelector(".content");
+        if (sidebar.style.left === "0px") {
+          sidebar.style.left = "-250px";
+          content.style.marginLeft = "0px"; /* Oculta el menú si está visible */
+        } else {
+          sidebar.style.left = "0";
+          content.style.marginLeft =
+            "250px"; /* Muestra el menú si está oculto */
+        }
+      }
+    </script>
+  </body>
+</html>

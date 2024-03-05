@@ -1,28 +1,78 @@
-/* Estilos CSS para la tabla */
+h1 {
+  text-align: center;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
 .styled-table {
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
 }
 
-.styled-table thead th {
-    background-color: #f2f2f2;
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+.styled-table th,
+.styled-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
-.styled-table tbody td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+.styled-table th {
+  background-color: #f2f2f2;
 }
 
 .styled-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 .styled-table tbody tr:hover {
-    background-color: #ddd;
+  background-color: #ddd;
+}
+
+.estado-rojo::before {
+  content: "\2022"; /* Código Unicode del punto */
+  color: red; /* Color rojo */
+  font-weight: bold;
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+.estado-verde::before {
+  content: "\2022"; /* Código Unicode del punto */
+  color: green; /* Color verde */
+  font-weight: bold;
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+.email-link {
+  color: #007bff; /* Color del texto */
+  text-decoration: none; /* Quitar subrayado */
+  margin-left: 10px;
+}
+
+.email-link:hover {
+  text-decoration: underline; /* Subrayar al pasar el mouse */
+}
+
+.cap {
+  text-transform: capitalize;
+}
+
+.input-error {
+  border-color: #ff0000 !important;
+  /* Color de borde rojo */
+  box-shadow: 0 0 5px #ff0000;
+  /* Sombra roja */
+}
+
+.error-message {
+  color: #ff0000;
+  /* Color del mensaje de error en rojo */
+  font-size: 12px;
+  margin-bottom: 12px;
+  /* Tamaño de fuente más pequeño para el mensaje de error */
+  /* Margen superior para separar el mensaje de error del campo de entrada */
 }
