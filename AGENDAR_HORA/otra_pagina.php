@@ -1,7 +1,12 @@
 <?php
 // Recuperar los valores de la fecha y el bloque
-$fecha = $_GET['fecha'];
-$bloque = $_GET['bloque'];
+
+// Obtener y sanitizar los datos del formulario
+$fecha = isset($_GET['fecha']) ? htmlspecialchars($_GET['fecha']) : '';
+$bloque = isset($_GET['bloque']) ? htmlspecialchars($_GET['bloque']) : '';
+$rut = isset($_GET['rut']) ? htmlspecialchars($_GET['rut']) : '';
+$isapre = isset($_GET['isapre']) ? htmlspecialchars($_GET['isapre']) : '';
+
 
 function formatearFecha($fecha)
 {
@@ -38,4 +43,6 @@ $horario = $bloques_horarios[$bloque];
 // Hacer lo que necesites con los valores recuperados
 echo "Fecha: " . formatearFecha($fecha) . "<br>";
 //echo "Bloque: " . $bloque . "<br>";
-echo "Horario: " . $horario;
+echo "Horario: " . $horario . "<br>";
+echo "Rut: " . $rut . "<br>";
+echo "ISapre: " . $isapre . "<br>";

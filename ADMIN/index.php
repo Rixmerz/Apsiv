@@ -193,20 +193,7 @@ include 'menu.php';
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function toggleSidebar() {
-            var sidebar = document.querySelector(".sidebar");
-            var content = document.querySelector(".content");
-            if (sidebar.style.left === "0px") {
-                sidebar.style.left = "-250px";
-                content.style.marginLeft = "0px"; /* Oculta el menú si está visible */
-            } else {
-                sidebar.style.left = "0";
-                content.style.marginLeft =
-                    "250px"; /* Muestra el menú si está oculto */
-            }
-        }
-    </script>
+
 </body>
 
 </html>

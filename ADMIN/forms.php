@@ -57,7 +57,9 @@ if ($resultado->num_rows > 0) {
     echo '</div>';
     echo '</div>';
 } else {
+    echo '<div class="content">';
     echo "No se encontraron resultados en la base de datos.";
+    echo '</div>';
 }
 
 // Cerrar la conexión a la base de datos u otros procesos de limpieza necesarios
