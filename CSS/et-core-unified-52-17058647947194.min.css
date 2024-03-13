@@ -1044,10 +1044,8 @@ body.et_pb_pagebuilder_layout.single.et_full_width_page
       var(--yellow_light) 17%,
       rgba(0, 0, 0, 0) 9%
     ),
-    url(../imagenes/zyro-image.png);
-  padding-top: 40px;
+    url(../imagenes/Foto\ con\ La\ Kika.jpg);
   padding-right: 2%;
-  padding-bottom: 41px;
   padding-left: 8%;
 }
 
@@ -1059,7 +1057,9 @@ body.et_pb_pagebuilder_layout.single.et_full_width_page
       rgba(43, 135, 218, 0) 80%,
       var(--yellow) 80%
     ),
-    url(../imagenes/psicogeriatria.jpg);
+    url(../imagenes/IMG-20240312-WA0004-fotor-2024031394159.jpg);
+  padding-right: 2%;
+  padding-left: 8%;
 }
 
 .et_pb_divider_0.et_pb_module {

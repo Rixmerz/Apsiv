@@ -20928,7 +20928,7 @@ body.woocommerce-page #content .et_builder_inner_content.product .et_pb_wc_image
     .et_pb_row .et_pb_column:last-child,
     .et_pb_row_inner .et_pb_column.et-last-child,
     .et_pb_row_inner .et_pb_column:last-child {
-        margin-right: 0 !important
+        margin-right: 0px;
     }
 
     .et_pb_row.et_pb_equal_columns,

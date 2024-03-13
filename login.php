@@ -83,8 +83,10 @@
 <body>
     <div class="login-container">
         <div class="logo">
-            <!-- Icono de página web (cambia la ruta según la ubicación de tu icono) -->
-            <img src="./imagenes/zyro-image (1)-fotor-20240229173153.png" alt="Icono de página web">
+            <a href="../">
+                <!-- Icono de página web (cambia la ruta según la ubicación de tu icono) -->
+                <img src="./imagenes/zyro-image (1)-fotor-20240229173153.png" alt="Icono de página web">
+            </a>
         </div>
         <div class="login-form">
             <!-- Formulario de inicio de sesión aquí -->
