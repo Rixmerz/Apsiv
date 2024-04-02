@@ -53,14 +53,14 @@
                             data-height-percentage="83" />
                     </a>
                 </div>
-         
+
 
                 <!-- #menu       -->
                 <div id="et-top-navigation" data-height="105" data-fixed-height="69">
                     <nav id="top-menu-nav">
                         <ul id="top-menu" class="nav">
                             <style>
-                    
+
                             </style>
                             <li id="menu-item-67"
                                 class="menu-item menu-item-type-custom menu-item-object-custom menu-item-67"><a
@@ -605,7 +605,8 @@
                                                     class="et_pb_with_border et_pb_module et_pb_contact_form_0 et_animated et_pb_contact_form_container clearfix">
 
 
-                                                    <h1 class="et_pb_contact_main_title titulo">Formulario de Contacto</h1>
+                                                    <h1 class="et_pb_contact_main_title titulo">Formulario de Contacto
+                                                    </h1>
                                                     <div class="et-pb-contact-message"></div>
                                                     <!--
                                                     <div class="et_pb_contact">
@@ -668,24 +669,64 @@
                                                     <!-- .et_pb_contact -->
                                                 </div> <!-- .et_pb_contact_form_container -->
                                                 <style>
-                                                  
+                                                    .loader {
+                                                        border: 4px solid rgba(0, 0, 0, .1);
+                                                        border-left-color: white;
+                                                        border-radius: 50%;
+                                                        width: 36px;
+                                                        height: 36px;
+                                                        animation: spin89345 1s linear infinite;
+                                                    }
+
+                                                    @keyframes spin89345 {
+                                                        0% {
+                                                            transform: rotate(0deg);
+                                                        }
+
+                                                        100% {
+                                                            transform: rotate(360deg);
+                                                        }
+                                                    }
+
+                                                    .input-error {
+                                                        border-color: #ff0000;
+                                                        box-shadow: 0 0 5px #ff0000;
+                                                    }
+
+                                                    .error-message {
+                                                        color: #ff0000;
+                                                        font-size: 18px;
+                                                        margin-top: 5px;
+                                                    }
                                                 </style>
-                                                <form action="guardado de datos.php" class="consulta-form"
-                                                    method="POST">
-
-                                                    <input type="text" class="input" value="" name="nombre_contacto"
-                                                        placeholder="Nombre" required>
+                                                <form action="https://formsubmit.co/jefersonvargas131@gmail.com"
+                                                    class="consulta-form" method="POST" onsubmit="return validateForm()"
+                                                    id="myForm">
+                                                    <input type="text" class="input" value="" id="nombre_contacto"
+                                                        name="nombre_contacto" placeholder="Nombre" required />
                                                     <span id="error-fono" class="error-message"></span>
-                                                    <input type="text" class="input" value="" name="fono_contacto"
-                                                        id="fono_contacto" placeholder="Fono" required>
 
+                                                    <input type="text" class="input" value="" name="fono_contacto"
+                                                        id="fono_contacto" placeholder="Fono" required />
 
                                                     <input type="email" class="input" value="" name="email_contacto"
-                                                        placeholder="Email" required>
+                                                        id="email_contacto" placeholder="Email" required />
 
                                                     <textarea name="mensaje_contacto" class="input"
-                                                        placeholder="Mensaje"></textarea>
-                                                    <button type="submit">Enviar</button>
+                                                        placeholder="Mensaje" id="mensaje_contacto"></textarea>
+
+                                                    <button type="submit">
+                                                        <span id="buttonText">Enviar</span>
+                                                        <div class="loader" id="loader" style="display:none;"></div>
+                                                    </button>
+
+                                                    <input type="hidden" name="_captcha" value="false" />
+                                                    <input type="hidden" name="_next"
+                                                        value="http://localhost:8080/APSIV/alerta.php" />
+                                                    <input type="hidden" name="_cc" value="contacto@apsiv.cl">
+                                                    <input type="hidden" name="_subject"
+                                                        value="Nuevo Formulario de Contacto!" />
+                                                    <input type="hidden" name="_template" value="table" />
                                                 </form>
                                             </div> <!-- .et_pb_column -->
                                             <div
@@ -707,12 +748,14 @@
 
 
                                                     <div class="et_pb_text_inner">
-                                                        <p>Para solicitar una primera consulta, o de un control de tipo Psicogeriátrico se deben efectuar
+                                                        <p>Para solicitar una primera consulta, o de un control de tipo
+                                                            Psicogeriátrico se deben efectuar
                                                             a:<br> <br><strong>Dr.-. Friedrich von Mühlenbrock
                                                                 S.</strong><br />
 
-                                                                <strong> E-Mail: <a href="mailto:atencionpsicogeriatria@apsiv.cl">atencionpsicogeriatria@apsiv.cl</a></strong>
-                                                                <!---->
+                                                            <strong> E-Mail: <a
+                                                                    href="mailto:atencionpsicogeriatria@apsiv.cl">atencionpsicogeriatria@apsiv.cl</a></strong>
+                                                            <!---->
                                                         </p>
                                                         <!--
                                                             href="mailto:smgpsiam@gmail.com"
@@ -814,25 +857,7 @@
         var et_pb_motion_elements = { "desktop": [], "tablet": [], "phone": [] };
         var et_pb_sticky_elements = [];
         /* ]]>hacer un archivo php para guardarlo en base de datos */
-    </script>
 
-    <style>
-        .input-error {
-            border-color: #ff0000;
-            /* Color de borde rojo */
-            box-shadow: 0 0 5px #ff0000;
-            /* Sombra roja */
-        }
-
-        .error-message {
-            color: #ff0000;
-            /* Color del mensaje de error en rojo */
-            font-size: 18px;
-            /* Tamaño de fuente más pequeño para el mensaje de error */
-            /* Margen superior para separar el mensaje de error del campo de entrada */
-        }
-    </style>
-    <script>
         function scrollToSection(sectionId) {
             var section = document.getElementById(sectionId);
             if (section) {
@@ -853,6 +878,48 @@
                 fonoInput.classList.remove('input-error');
             }
         });
+
+        function validateForm() {
+            var mensaje_contacto = document.getElementById("mensaje_contacto").value.trim();
+            var formData = new FormData(document.getElementById("myForm"));
+
+            if (mensaje_contacto !== "") {
+                fetch("guardar_datos.php", {
+                    method: "POST",
+                    body: formData
+                })
+                    .then(response => response.text())
+                    .then(data => {// Reinicia el formulario // Oculta el loader después de completar la operación
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        hideLoader(); // Oculta el loader si hay un error
+                    });
+                showLoader(); // Muestra el loader mientras se envía el formulario
+                return true; // Evita el envío del formulario por defecto-----REVISAR
+            } else {
+                alert("Por favor, complete todos los campos.");
+                return false; // Evita el envío del formulario si los campos están vacíos
+            }
+        }
+
+        function showLoader() {
+            var buttonText = document.getElementById("buttonText");
+            var loader = document.getElementById("loader");
+
+            // Oculta el texto del botón y muestra el loader
+            buttonText.style.display = "none";
+            loader.style.display = "inline-block"; // o "block" según necesites
+        }
+
+        function hideLoader() {
+            var buttonText = document.getElementById("buttonText");
+            var loader = document.getElementById("loader");
+
+            // Muestra el texto del botón y oculta el loader
+            buttonText.style.display = "inline-block";
+            loader.style.display = "none";
+        }
 
     </script>
 
