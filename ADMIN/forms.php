@@ -1,7 +1,20 @@
 <?php
 include 'menu.php';
 include '../bd.php';
+
+
+try {
+    $conn = new PDO("mysql:host=$servidor;dbname=$basededatos", $usuario, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sql = "UPDATE `formulario_contacto` SET `Estado_Visto`='Visto';";
+    $conn->exec($sql);
+    //echo $sql . "<br>";
+    $conn = null;
+} catch (PDOException $e) {
+    $conn = null;
+}
 ?>
+
 <header>
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -40,13 +53,21 @@ if ($resultado->num_rows > 0) {
         $estado_clase = $row["Estado"] == "Faltante" ? "estado-rojo" : "estado-verde";
         echo '<td class="' . $estado_clase . '">' . $row["Estado"] . '</td>';
         echo '<td style="text-align:center">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal' . $row["ID"] . '">
+            <button type="button" class="btn btn-primary w-75" data-bs-toggle="modal" data-bs-target="#exampleModal' . $row["ID"] . '">
             Registrar
-            </button>
-          
-        <a class="email-link" href="mailto:' . $row["Correo"] . '?subject=Respuesta de APSIV.CL" target="_blank"><i class="fa-regular fa-paper-plane"></i> Enviar correo</a>
+            </button><br>
+            
+              <button type="button" class="btn btn-secondary w-75" data-bs-toggle="modal" data-bs-target="#ModalToken' . $row["ID"] . '">
+            Crear Token
+            </button><br>
+              <button type="button" class="btn btn-danger w-75" data-bs-toggle="modal" data-bs-target="#ModalDelete' . $row["ID"] . '">
+            Eliminar Consulta
+            </button><br>
+            <a class="email-link w-75" href="mailto:' . $row["Correo"] . '?subject=Respuesta de APSIV.CL" target="_blank"><i class="fa-regular fa-paper-plane"></i> Enviar correo</a>
         </td>';
         include('modal_editar.php');
+        include('modal_token.php');
+        include('modal_delete.php');
 
         echo '</tr>';
     }

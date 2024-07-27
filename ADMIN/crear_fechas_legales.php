@@ -36,12 +36,23 @@ $fechaFin = $ultimo_dia_mes;
 // Calcular días hábiles en el rango de fechas
 $diasHabiles = calcularDiasHabiles($fechaInicio, $fechaFin);
 
-// Insertar los días hábiles en la tabla de disponibilidad
-foreach ($diasHabiles as $dia) {
-    $sql = "INSERT INTO disponibilidad (dia) VALUES ('$dia')";
-    if ($conexion->query($sql) === false) {
-        echo "Error al insertar el día " . $dia . ": " . $conexion->error . "<br>";
+$fecha = $conexion->query("SELECT * from disponibilidad where dia='$fechaFin'");
+if ($fecha->num_rows > 0) {
+    if ($mostrar = mysqli_fetch_assoc($fecha)) {
+        $id_disponibilidad = $mostrar['id'];
+        echo "Fecha  y hora insertadas <br>";
+    }
+} else {
+    // Insertar los días hábiles en la tabla de disponibilidad
+    foreach ($diasHabiles as $dia) {
+        $sql = "INSERT INTO disponibilidad (dia) VALUES ('$dia')";
+        if ($conexion->query($sql) === false) {
+            echo "Error al insertar el día " . $dia . ": " . $conexion->error . "<br>";
+        }
     }
 }
 
+
 $conexion->close();
+
+header("Location: index.php");

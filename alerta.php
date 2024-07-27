@@ -21,7 +21,7 @@ echo '<script>
             break;
         }
       });
-  </script>';;
+  </script>';
 
 
 ?>

@@ -1,7 +1,7 @@
 <?php
 include '../bd.php'; // Incluye el archivo de conexión a la base de datos
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_POST['crear_paciente'])) {
     // Recupera los datos del formulario
     $id_registros = $_POST["id"];
     $nombre_paciente = $_POST["nombre_paciente"];
@@ -44,5 +44,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt_delete->close();
 
     header("Location: index.php");
+    exit;
+} else if (isset($_POST['eliminar_consulta'])) {
+
+    $id_registros = $_POST["id"];
+
+    try {
+        $conn = new PDO("mysql:host=$servidor;dbname=$basededatos", $usuario, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM `formulario_contacto` WHERE ID=$id_registros";
+        $conn->exec($sql);
+        //echo $sql . "<br>";
+        $conn = null;
+    } catch (PDOException $e) {
+        $conn = null;
+    }
+
+    try {
+        $conn = new PDO("mysql:host=$servidor;dbname=$basededatos", $usuario, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM `tokens` WHERE ID_Formulario=$id_registros";
+        $conn->exec($sql);
+        //echo $sql . "<br>";
+        $conn = null;
+    } catch (PDOException $e) {
+        $conn = null;
+    }
+
+    header("Location: forms.php");
     exit;
 }

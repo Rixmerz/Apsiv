@@ -6,55 +6,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horario del día</title>
     <style>
+        * {
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+        }
+
         .day-schedule {
             background-color: #f0f0f0;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid #111D13;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             align-items: flex-start;
-            width: 600px;
+            max-width: 600px;
             margin: 0 auto 20px;
             /* Centra horizontalmente y agrega margen inferior */
             text-align: center;
         }
 
+        @media (max-width: 600px) {
+            .day-schedule {
+                max-width: 100%;
+            }
+        }
+
+
         .day-title {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: bold;
             margin-bottom: 10px;
             width: 100%;
             text-align: center;
             text-transform: capitalize;
+            background-color: #3E6680;
+            color: white;
+            height: 40px;
+            line-height: 40px;
+
         }
 
         .time-slot {
-            background-color: #e0e0e0;
+            border: 2px solid #027BCE;
+            /* Cambiar a la propiedad border */
             padding: 10px;
-            margin-bottom: 10px;
             border-radius: 10px;
             width: 100px;
             text-align: center;
+            margin: 5px;
         }
+
 
         a {
             text-decoration: none;
-            color: black;
+            color: #111D13;
+        }
+
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 
 <?php
 echo '<body>';
-// Función para formatear la fecha en español
 
+// Función para formatear la fecha en español
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener y sanitizar el campo "rut"
     $rut = htmlspecialchars($_POST['rut']);
     // Obtener y sanitizar el campo "isapre"
     $isapre = htmlspecialchars($_POST['isapre']);
+
+    include '../bd.php';
+    try {
+        $conn = new PDO("mysql:host=$servidor;dbname=$basededatos", $usuario, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM `formulario_contacto` WHERE ID=$id_registros";
+        $conn->exec($sql);
+        //echo $sql . "<br>";
+        $conn = null;
+    } catch (PDOException $e) {
+        $conn = null;
+    }
 
     function formatearFecha($fecha)
     {
@@ -62,8 +98,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $nombre_dia = $fecha_objeto->format('l'); // Nombre del día de la semana
         $nombre_mes = $fecha_objeto->format('F'); // Nombre del mes
         $traducciones = array(
-            'Monday' => 'Lunes', 'Tuesday' => 'Martes', 'Wednesday' => 'Miércoles', 'Thursday' => 'Jueves',
-            'Friday' => 'Viernes', 'Saturday' => 'Sábado', 'Sunday' => 'Domingo',
+            'Monday' => 'Lunes', 'Tuesday' => 'Martes', 'Wednesday' => 'Miercoles', 'Thursday' => 'Jueves',
+            'Friday' => 'Viernes', 'Saturday' => 'Sabado', 'Sunday' => 'Domingo',
             'January' => 'Enero', 'February' => 'Febrero', 'March' => 'Marzo', 'April' => 'Abril',
             'May' => 'Mayo', 'June' => 'Junio', 'July' => 'Julio', 'August' => 'Agosto', 'September' => 'Septiembre',
             'October' => 'Octubre', 'November' => 'Noviembre', 'December' => 'Diciembre'
@@ -86,11 +122,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include '../bd.php';
 
     // Consulta SQL para obtener las fechas de la tabla correspondiente (limitando a 5 fechas)
-    $sql = "SELECT * FROM disponibilidad WHERE dia >= CURDATE() limit 5";
+    $sql = "SELECT * FROM disponibilidad WHERE dia >= NOW() LIMIT 5;";
 
     // Ejecutar la consulta
     $resultado = $conexion->query($sql);
-
+    echo "<h1>Eliga su Hora</h1>";
     // Verificar si se obtuvieron resultados
     if ($resultado->num_rows > 0) {
         // Iterar sobre los resultados y mostrar las fechas
@@ -116,10 +152,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             foreach ($bloques_horarios as $bloque => $horario) {
                 if ($fila[$bloque] != "SI") {
                     list($inicio, $fin) = explode('-', $horario);
-                    // Generar la URL con los datos de la fecha y el bloque como parámetros de consulta
-                    $url = "otra_pagina.php?fecha=" . urlencode($fila["dia"]) . "&bloque=" . urlencode($bloque) . "&rut=" . urlencode($rut) . "&isapre=" . urlencode($isapre);
-                    // Imprimir el enlace <a> con el URL generado
-                    echo '<a href="' . $url . '" class="enlace-bloque">';
+?>
+                    <form id="form-<?php echo $fila['dia'] . '-' . $bloque; ?>" action="confirmation.php" method="post" style="display: none;">
+                        <input type="hidden" name="fecha" value="<?php echo $fila["dia"]; ?>">
+                        <input type="hidden" name="bloque" value="<?php echo $bloque; ?>">
+                        <input type="hidden" name="rut" value="<?php echo $rut; ?>">
+                        <input type="hidden" name="isapre" value="<?php echo $isapre; ?>">
+                    </form>
+                    <a href="#" onclick="submitForm('form-<?php echo $fila['dia'] . '-' . $bloque; ?>');" class="enlace-bloque">
+                        <script>
+                            function submitForm(formId) {
+                                document.getElementById(formId).submit();
+                            }
+                        </script>
+    <?php
                     // Generar las ranuras de tiempo
                     generarRanuras(strtotime($inicio), strtotime($fin), 3600);
                     echo '</a>';
@@ -129,13 +175,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo '</div>';
         }
     } else {
-        echo "No se encontraron fechas en la base de datos.";
+        echo "<h1>No hay disponibilidad actualmente. Intente mas tarde</h1>";
     }
+
+    $conexion->close();
+} else {
+    header('Location: ./');
+    exit(); // Es importante terminar el script después de enviar el encabezado de redirección
 }
+
+
 echo '</body>'; // Cierre del div 'day-schedule'
 // Cerrar la conexión
-$conexion->close();
-?>
+
+    ?>
 
 
 

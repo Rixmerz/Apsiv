@@ -56,6 +56,10 @@ include '../bd.php';
     /* Estilo para la lista */
     li {
         display: flex;
+
+        position: relative;
+        /* Asegura que el contenedor li tenga una posición relativa */
+
         /* Usa flexbox para alinear los elementos horizontalmente */
         align-items: center;
         /* Centra verticalmente los elementos */
@@ -150,6 +154,22 @@ include '../bd.php';
         transform: rotate(-45deg);
     }
 
+    .estado-rojo::before {
+        content: "\2022";
+        /* Código Unicode del punto */
+        color: red;
+        /* Color rojo */
+        font-weight: bold;
+        font-size: 20px;
+        margin-left: 12px;
+        position: absolute;
+        /* Posiciona el punto absolutamente dentro del contenedor padre */
+        top: 0;
+        /* Alinea con el borde superior del contenedor */
+        left: 0;
+        /* Alinea con el borde izquierdo del contenedor */
+    }
+
     @media screen and (max-width: 768px) {
         .sidebar {
             left: -250px;
@@ -180,9 +200,27 @@ include '../bd.php';
     <h4 class="text-center" style="color:white">Menu</h4>
     <ul>
         <li>
-            <i class="fa-solid fa-calendar-days"></i> <a href="/Apsiv/ADMIN/">Calendario</a>
+            <i class="fa-solid fa-calendar-days"></i> <a href="../ADMIN/">Calendario</a>
         </li>
-        <li><i class="fa-solid fa-table-list"></i><a href="/Apsiv/ADMIN/forms.php">Ultimos Formularios</a></li>
+        <?php
+        // Consulta SQL para obtener el conteo de formularios con Estado_Visto 'Faltante'
+        $sql1 = "SELECT COUNT(*) AS total FROM `formulario_contacto` WHERE Estado_Visto='Faltante';";
+
+        // Ejecutar la consulta
+        $resultado = $conexion->query($sql1);
+        $faltante = $resultado->fetch_assoc()['total'] > 0;
+
+        // Mostrar el resultado correspondiente según el estado de los formularios
+        ?>
+        <li>
+            <?php if ($faltante) : ?>
+                <span class='estado-rojo'>&bull;</span>
+            <?php endif; ?>
+            <i class='fa-solid fa-table-list'></i>
+            <a href='../ADMIN/forms.php'>Ultimos Formularios</a>
+        </li>
+
+
         <li><a href="#">Servicios</a></li>
         <li><a href="#">Contacto</a></li>
         <li>
