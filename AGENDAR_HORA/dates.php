@@ -81,16 +81,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isapre = htmlspecialchars($_POST['isapre']);
 
     include '../bd.php';
+    /*
     try {
         $conn = new PDO("mysql:host=$servidor;dbname=$basededatos", $usuario, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "DELETE FROM `formulario_contacto` WHERE ID=$id_registros";
         $conn->exec($sql);
-        //echo $sql . "<br>";
+        echo $sql . "<br>";
         $conn = null;
     } catch (PDOException $e) {
         $conn = null;
     }
+        */
 
     function formatearFecha($fecha)
     {
@@ -98,11 +100,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $nombre_dia = $fecha_objeto->format('l'); // Nombre del día de la semana
         $nombre_mes = $fecha_objeto->format('F'); // Nombre del mes
         $traducciones = array(
-            'Monday' => 'Lunes', 'Tuesday' => 'Martes', 'Wednesday' => 'Miercoles', 'Thursday' => 'Jueves',
-            'Friday' => 'Viernes', 'Saturday' => 'Sabado', 'Sunday' => 'Domingo',
-            'January' => 'Enero', 'February' => 'Febrero', 'March' => 'Marzo', 'April' => 'Abril',
-            'May' => 'Mayo', 'June' => 'Junio', 'July' => 'Julio', 'August' => 'Agosto', 'September' => 'Septiembre',
-            'October' => 'Octubre', 'November' => 'Noviembre', 'December' => 'Diciembre'
+            'Monday' => 'Lunes',
+            'Tuesday' => 'Martes',
+            'Wednesday' => 'Miercoles',
+            'Thursday' => 'Jueves',
+            'Friday' => 'Viernes',
+            'Saturday' => 'Sabado',
+            'Sunday' => 'Domingo',
+            'January' => 'Enero',
+            'February' => 'Febrero',
+            'March' => 'Marzo',
+            'April' => 'Abril',
+            'May' => 'Mayo',
+            'June' => 'Junio',
+            'July' => 'Julio',
+            'August' => 'Agosto',
+            'September' => 'Septiembre',
+            'October' => 'Octubre',
+            'November' => 'Noviembre',
+            'December' => 'Diciembre'
         );
         $nombre_dia = $traducciones[$nombre_dia];
         $nombre_mes = $traducciones[$nombre_mes];
@@ -118,18 +134,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Incluir archivo de configuración de la base de datos
-    include '../bd.php';
-
     // Consulta SQL para obtener las fechas de la tabla correspondiente (limitando a 5 fechas)
     $sql = "SELECT * FROM disponibilidad WHERE dia >= NOW() LIMIT 5;";
 
     // Ejecutar la consulta
     $resultado = $conexion->query($sql);
-    echo "<h1>Eliga su Hora</h1>";
+
     // Verificar si se obtuvieron resultados
     if ($resultado->num_rows > 0) {
         // Iterar sobre los resultados y mostrar las fechas
+        echo "<h1>Eliga su Hora</h1>";
         while ($fila = $resultado->fetch_assoc()) {
             // Div contenedor de la programación del día
 
@@ -175,7 +189,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo '</div>';
         }
     } else {
-        echo "<h1>No hay disponibilidad actualmente. Intente mas tarde</h1>";
+        echo "<br><br><br><h1>No hay disponibilidad actualmente. Intente mas tarde</h1>";
     }
 
     $conexion->close();

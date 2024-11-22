@@ -91,7 +91,14 @@ include '../bd.php';
         margin-left: 250px;
         padding: 20px;
         transition: margin-left 0.3s ease;
-        margin-top: 30px;
+        margin-top: 40px;
+        /* Añade una transición al movimiento del contenido */
+    }
+
+    .contenido {
+        padding: 20px;
+        transition: margin-left 0.3s ease;
+        margin-bottom: -40px;
         /* Añade una transición al movimiento del contenido */
     }
 

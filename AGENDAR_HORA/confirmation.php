@@ -36,7 +36,6 @@
         }
 
         .button-container {
-            display: flex;
             justify-content: space-between;
             margin-top: 20px;
         }
@@ -60,6 +59,7 @@
 
         .button-container .cancel-btn {
             background-color: #d9534f;
+            margin-right: 30%;
         }
 
         .button-container .cancel-btn:hover {
@@ -67,66 +67,94 @@
         }
     </style>
 </head>
+<?php
 
-<body>
-    <div class="confirmation-container">
-        <?php
-        // Simulación de los datos recuperados para la confirmación (sustituye esto por los valores reales)
-        $fecha = isset($_POST['fecha']) ? htmlspecialchars($_POST['fecha']) : '';
-        $bloque = isset($_POST['bloque']) ? htmlspecialchars($_POST['bloque']) : '';
-        $rut = isset($_POST['rut']) ? htmlspecialchars($_POST['rut']) : '';
-        $isapre = isset($_POST['isapre']) ? htmlspecialchars($_POST['isapre']) : '';
+// Función para formatear la fecha en español
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+?>
 
-        // Función para formatear la fecha en español
-        function formatearFecha($fecha)
-        {
-            $fecha_objeto = new DateTime($fecha);
-            $nombre_dia = $fecha_objeto->format('l'); // Nombre del día de la semana
-            $nombre_mes = $fecha_objeto->format('F'); // Nombre del mes
-            $traducciones = array(
-                'Monday' => 'Lunes', 'Tuesday' => 'Martes', 'Wednesday' => 'Miércoles', 'Thursday' => 'Jueves',
-                'Friday' => 'Viernes', 'Saturday' => 'Sábado', 'Sunday' => 'Domingo',
-                'January' => 'Enero', 'February' => 'Febrero', 'March' => 'Marzo', 'April' => 'Abril',
-                'May' => 'Mayo', 'June' => 'Junio', 'July' => 'Julio', 'August' => 'Agosto', 'September' => 'Septiembre',
-                'October' => 'Octubre', 'November' => 'Noviembre', 'December' => 'Diciembre'
+    <body>
+        <div class="confirmation-container">
+            <?php
+            // Simulación de los datos recuperados para la confirmación (sustituye esto por los valores reales)
+            $fecha = isset($_POST['fecha']) ? htmlspecialchars($_POST['fecha']) : '';
+            $bloque = isset($_POST['bloque']) ? htmlspecialchars($_POST['bloque']) : '';
+            $rut = isset($_POST['rut']) ? htmlspecialchars($_POST['rut']) : '';
+            $isapre = isset($_POST['isapre']) ? htmlspecialchars($_POST['isapre']) : '';
+
+            // Función para formatear la fecha en español
+            function formatearFecha($fecha)
+            {
+                $fecha_objeto = new DateTime($fecha);
+                $nombre_dia = $fecha_objeto->format('l'); // Nombre del día de la semana
+                $nombre_mes = $fecha_objeto->format('F'); // Nombre del mes
+                $traducciones = array(
+                    'Monday' => 'Lunes',
+                    'Tuesday' => 'Martes',
+                    'Wednesday' => 'Miércoles',
+                    'Thursday' => 'Jueves',
+                    'Friday' => 'Viernes',
+                    'Saturday' => 'Sábado',
+                    'Sunday' => 'Domingo',
+                    'January' => 'Enero',
+                    'February' => 'Febrero',
+                    'March' => 'Marzo',
+                    'April' => 'Abril',
+                    'May' => 'Mayo',
+                    'June' => 'Junio',
+                    'July' => 'Julio',
+                    'August' => 'Agosto',
+                    'September' => 'Septiembre',
+                    'October' => 'Octubre',
+                    'November' => 'Noviembre',
+                    'December' => 'Diciembre'
+                );
+                $nombre_dia = $traducciones[$nombre_dia];
+                $nombre_mes = $traducciones[$nombre_mes];
+                $numero_dia = $fecha_objeto->format('j');
+                return "$nombre_dia $numero_dia de $nombre_mes";
+            }
+
+            $bloques_horarios = array(
+                "Bloque_1" => "09:00-10:00",
+                "Bloque_2" => "10:00-11:00",
+                "Bloque_3" => "11:00-12:00",
+                "Bloque_4" => "12:00-13:00",
+                "Bloque_5" => "14:00-15:00",
+                "Bloque_6" => "15:00-16:00",
+                "Bloque_7" => "16:00-17:00",
+                "Bloque_8" => "17:00-18:00"
             );
-            $nombre_dia = $traducciones[$nombre_dia];
-            $nombre_mes = $traducciones[$nombre_mes];
-            $numero_dia = $fecha_objeto->format('j');
-            return "$nombre_dia $numero_dia de $nombre_mes";
-        }
 
-        $bloques_horarios = array(
-            "Bloque_1" => "09:00-10:00",
-            "Bloque_2" => "10:00-11:00",
-            "Bloque_3" => "11:00-12:00",
-            "Bloque_4" => "12:00-13:00",
-            "Bloque_5" => "14:00-15:00",
-            "Bloque_6" => "15:00-16:00",
-            "Bloque_7" => "16:00-17:00",
-            "Bloque_8" => "17:00-18:00"
-        );
+            // Obtener el horario correspondiente al bloque seleccionado
+            $horario = $bloques_horarios[$bloque];
 
-        // Obtener el horario correspondiente al bloque seleccionado
-        $horario = $bloques_horarios[$bloque];
+            echo "<h2> ¿Desea confirmar su hora? </h2>";
+            echo "<p>Fecha: " . formatearFecha($fecha) . "</p>";
+            echo "<p>Horario: " . $horario . "</p>";
+            echo "<p>Rut: " . $rut . "</p>";
+            echo "<p>Isapre: " . $isapre . "</p>";
+            ?>
+            <div class="button-container">
+                <form action="confirmar_hora.php" method="post">
+                    <input type="hidden" name="fecha" value="<?php echo $fecha; ?>">
+                    <input type="hidden" name="bloque" value="<?php echo $bloque; ?>">
+                    <input type="hidden" name="rut" value="<?php echo $rut; ?>">
+                    <input type="hidden" name="isapre" value="<?php echo $isapre; ?>">
 
-        echo "<h2> ¿Desea confirmar su hora? </h2>";
-        echo "<p>Fecha: " . formatearFecha($fecha) . "</p>";
-        echo "<p>Horario: " . $horario . "</p>";
-        echo "<p>Rut: " . $rut . "</p>";
-        echo "<p>Isapre: " . $isapre . "</p>";
-        ?>
-        <div class="button-container">
-            <form action="confirmar_hora.php" method="post">
-                <input type="hidden" name="fecha" value="<?php echo $fecha; ?>">
-                <input type="hidden" name="bloque" value="<?php echo $bloque; ?>">
-                <input type="hidden" name="rut" value="<?php echo $rut; ?>">
-                <input type="hidden" name="isapre" value="<?php echo $isapre; ?>">
-                <input type="submit" value="Confirmar">
-            </form>
-            <a href="javascript:history.back()" class="cancel-btn">Cancelar</a>
+                    <a href="javascript:history.back()" class="cancel-btn">Cancelar</a>
+
+                    <input type="submit" value="Confirmar">
+                </form>
+
+            </div>
         </div>
-    </div>
-</body>
+    </body>
+<?php
+} else {
+    header('Location: ./');
+    exit(); // Es importante terminar el script después de enviar el encabezado de redirección
+}
+?>
 
 </html>

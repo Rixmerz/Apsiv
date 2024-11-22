@@ -21,6 +21,33 @@ try {
     <script src="https://kit.fontawesome.com/8846655159.js" crossorigin="anonymous"></script>
     <title>Ultimos Formularios</title>
 </header>
+
+<div class="contenido" style="display: flex; justify-content: flex-end;">
+    <?php
+    // Consulta SQL para obtener la disponibilidad del día actual
+    $sql3 = "SELECT * FROM `disponibilidad` WHERE dia = CURDATE()";
+
+    // Ejecutar la consulta
+    $resultado_dias = $conexion->query($sql3);
+
+    // Verificar si la consulta fue exitosa
+    if ($resultado_dias) {
+        // Verificar si no hay registros de disponibilidad para el día actual
+        if ($resultado_dias->num_rows == 0) {
+    ?>
+            <!-- Botón para crear fechas legales si no hay disponibilidad -->
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='./crear_fechas_legales.php'">
+                Crear fechas legales
+            </button>
+    <?php
+        }
+    } else {
+        // Mostrar un mensaje de error si la consulta falla
+        echo "Error al ejecutar la consulta: " . $conexion->error;
+    }
+    ?>
+</div>
+
 <?php
 // Consulta SQL
 $sql = "SELECT * FROM `formulario_contacto` ORDER BY `formulario_contacto`.`ID` DESC limit 10 ";
@@ -32,7 +59,7 @@ $resultado = $conexion->query($sql);
 if ($resultado->num_rows > 0) {
     // Comienza la tabla con estilos CSS
     echo '<div class="content">';
-    echo '<h1>Ultimos Formularios de Contacto</h1>';
+    echo '<h1 style="margin-bottom:20px">Ultimos Formularios de Contacto</h1>';
     echo '<div class="table-container">';
     echo '<table class="styled-table">';
     // Encabezados de la tabla con estilos CSS
@@ -55,11 +82,28 @@ if ($resultado->num_rows > 0) {
         echo '<td style="text-align:center">
             <button type="button" class="btn btn-primary w-75" data-bs-toggle="modal" data-bs-target="#exampleModal' . $row["ID"] . '">
             Registrar
-            </button><br>
-            
-              <button type="button" class="btn btn-secondary w-75" data-bs-toggle="modal" data-bs-target="#ModalToken' . $row["ID"] . '">
-            Crear Token
-            </button><br>
+            </button><br>';
+
+        $sql2 = "SELECT * FROM `tokens` where ID_Formulario='$id' AND Fecha_Expiracion > NOW();";
+        $consulta = $conexion->query($sql2);
+        //echo $sql2."<br>";
+
+        // Verificar si se obtuvieron resultados
+        if ($consulta->num_rows > 0) {
+            echo '
+                <button type="button" class="btn btn-secondary w-75" data-bs-toggle="modal" data-bs-target="#ModalToken' . $row["ID"] . '">
+                Ver Token
+                </button>';
+        } else {
+            echo '
+                <button type="button" class="btn btn-secondary w-75" data-bs-toggle="modal" data-bs-target="#ModalToken' . $row["ID"] . '">
+                Crear Token
+                </button>';
+        }
+
+        echo '
+
+            <br>
               <button type="button" class="btn btn-danger w-75" data-bs-toggle="modal" data-bs-target="#ModalDelete' . $row["ID"] . '">
             Eliminar Consulta
             </button><br>
